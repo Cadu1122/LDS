@@ -1,0 +1,72 @@
+package business;
+
+public class Turma {
+private boolean ativo;
+private int valor;
+private static final int MIN_ALUNOS=3;
+private static final int MAX_ALUNOS=60;
+private String nome;
+private Curso curso;
+private boolean obrigatorio;
+private int qtdAlunos;
+public boolean isAtivo() {
+	return ativo;
+}
+public void setAtivo(boolean ativo) {
+	this.ativo = ativo;
+}
+public String getNome() {
+	return nome;
+}
+public void setNome(String nome) {
+	this.nome = nome;
+}
+public boolean isObrigatorio() {
+	return obrigatorio;
+}
+public void setObrigatorio(boolean obrigatorio) {
+	this.obrigatorio = obrigatorio;
+}
+public int getValor() {
+	return valor;
+}
+public void setValor(int valor)
+{
+	this.valor=valor;
+}
+public static int getMinAlunos() {
+	return MIN_ALUNOS;
+}
+public static int getMaxAlunos() {
+	return MAX_ALUNOS;
+}
+public Curso getCurso() {
+	return curso;
+}
+public int getQtdAlunos() {
+	return qtdAlunos;
+}
+public Turma(boolean ativo, int valor, String nome, Curso curso, boolean obrigatorio) {
+	this.ativo = ativo;
+	this.valor = valor;
+	this.nome = nome;
+	this.curso = curso;
+	this.obrigatorio = obrigatorio;
+}
+private boolean verificaQtdAluno()
+{
+	return true;
+}
+public void adicionaAluno(Aluno aluno)
+{
+	
+}
+public void retirarAluno(Aluno aluno)
+{
+	
+}
+public void alterarValor(int valor)
+{
+	this.setValor(valor);
+}
+}
