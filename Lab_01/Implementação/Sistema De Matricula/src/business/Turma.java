@@ -1,21 +1,19 @@
 package business;
 
+import java.util.Set;
+
 public class Turma {
 	private boolean ativo;
-	private int valor;
+	private double valor;
 	private static final int MIN_ALUNOS = 3;
 	private static final int MAX_ALUNOS = 60;
 	private String nome;
-	private Curso curso;
+	private Set<Curso> cursos;
 	private boolean obrigatorio;
 	private int qtdAlunos;
 
 	public boolean isAtivo() {
 		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
 	}
 
 	public String getNome() {
@@ -34,12 +32,14 @@ public class Turma {
 		this.obrigatorio = obrigatorio;
 	}
 
-	public int getValor() {
+	public double getValor() {
 		return valor;
 	}
 
 	public void setValor(int valor) {
-		this.valor = valor;
+		if (valor >= 0) {
+			this.valor = valor;
+		}
 	}
 
 	public static int getMinAlunos() {
@@ -50,35 +50,47 @@ public class Turma {
 		return MAX_ALUNOS;
 	}
 
-	public Curso getCurso() {
-		return curso;
+	public Set<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void addCurso(Curso curso) {
+		this.cursos.add(curso);
 	}
 
 	public int getQtdAlunos() {
 		return qtdAlunos;
 	}
 
-	public Turma(boolean ativo, int valor, String nome, Curso curso, boolean obrigatorio) {
-		this.ativo = ativo;
+	public Turma(int valor, String nome, Curso curso, boolean obrigatorio) {
+		this.ativo = false;
 		this.valor = valor;
 		this.nome = nome;
-		this.curso = curso;
+		this.addCurso(curso);
 		this.obrigatorio = obrigatorio;
 	}
 
 	private boolean verificaQtdAluno() {
-		return true;
+		return this.qtdAlunos >= MIN_ALUNOS;
 	}
 
 	public void adicionaAluno(Aluno aluno) {
-
+		if(aluno.equals(null)) {
+			throw new IllegalStateException("Aluno não pode ser nulo");
+		}
+		this.qtdAlunos++;
+		if(verificaQtdAluno()) {
+			this.ativo = true;
+		}
 	}
 
 	public void retirarAluno(Aluno aluno) {
-
-	}
-
-	public void alterarValor(int valor) {
-		this.setValor(valor);
+		if(aluno.equals(null)) {
+			throw new IllegalStateException("Aluno não pode ser nulo");
+		}
+		this.qtdAlunos--;
+		if(verificaQtdAluno()) {
+			this.ativo = false;
+		}
 	}
 }
