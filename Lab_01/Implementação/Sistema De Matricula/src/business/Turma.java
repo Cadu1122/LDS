@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 public class Turma {
 	private boolean ativo;
-	private double valor;
 	private static final int MIN_ALUNOS = 3;
 	private static final int MAX_ALUNOS = 60;
 	private String nome;
@@ -33,16 +32,6 @@ public class Turma {
 		this.obrigatorio = obrigatorio;
 	}
 
-	public double getValor() {
-		return valor;
-	}
-
-	public void setValor(int valor) {
-		if (valor >= 0) {
-			this.valor = valor;
-		}
-	}
-
 	public static int getMinAlunos() {
 		return MIN_ALUNOS;
 	}
@@ -63,10 +52,9 @@ public class Turma {
 		return qtdAlunos;
 	}
 
-	public Turma(int valor, String nome, Curso curso, boolean obrigatorio) {
+	public Turma(String nome, Curso curso, boolean obrigatorio) {
 		this.cursos = new TreeSet<Curso>();
 		this.ativo = false;
-		this.valor = valor;
 		this.nome = nome;
 		this.addCurso(curso);
 		this.obrigatorio = obrigatorio;
@@ -77,6 +65,9 @@ public class Turma {
 	}
 
 	public void adicionaAluno(Aluno aluno) {
+		if(this.qtdAlunos >= 60) {
+			throw new IllegalStateException("Turma está com número máximo de alunos");
+		}
 		if(aluno.equals(null)) {
 			throw new IllegalStateException("Aluno não pode ser nulo");
 		}
@@ -87,6 +78,9 @@ public class Turma {
 	}
 
 	public void retirarAluno(Aluno aluno) {
+		if(qtdAlunos >= 0) {
+			throw new IllegalStateException("Não existem alunos nessa turma");
+		}
 		if(aluno.equals(null)) {
 			throw new IllegalStateException("Aluno não pode ser nulo");
 		}
