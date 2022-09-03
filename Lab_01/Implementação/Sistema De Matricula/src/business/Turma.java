@@ -1,6 +1,7 @@
 package business;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Turma {
 	private boolean ativo;
@@ -63,6 +64,7 @@ public class Turma {
 	}
 
 	public Turma(int valor, String nome, Curso curso, boolean obrigatorio) {
+		this.cursos = new TreeSet<Curso>();
 		this.ativo = false;
 		this.valor = valor;
 		this.nome = nome;
