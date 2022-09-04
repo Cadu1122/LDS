@@ -4,6 +4,11 @@ public abstract class Usuario {
 	private String nome;
 	private String senha;
 	private int id;
+	private static int contador;
+	
+	public static int getContador() {
+		return contador;
+	}
 
 	public String getNome() {
 		return nome;
@@ -26,12 +31,12 @@ public abstract class Usuario {
 	}
 
 	public Usuario(String nome, String senha) {
-		super();
 		this.nome = nome;
 		this.senha = senha;
+		id=++contador;
 	}
 
 	public boolean validarLogin() {
-		return true;
+		return (nome!=null&&senha!=null);
 	}
 }
