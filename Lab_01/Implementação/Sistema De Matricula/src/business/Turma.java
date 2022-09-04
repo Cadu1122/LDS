@@ -73,7 +73,7 @@ public class Turma {
 		return this.qtdAlunos >= MIN_ALUNOS;
 	}
 
-	public void adicionaAluno(Aluno aluno) {
+	public void adicionarAluno(Aluno aluno) {
 		if(this.qtdAlunos >= 60) {
 			throw new IllegalStateException("Turma está com número máximo de alunos");
 		}
