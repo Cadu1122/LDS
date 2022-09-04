@@ -55,6 +55,5 @@ public class Secretario extends Usuario{
 	public void gerarCurriculo()
 	{
 		
-		
 	}
 }
