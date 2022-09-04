@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public class Secretario extends Usuario{
@@ -8,9 +9,15 @@ public class Secretario extends Usuario{
 		super(nome, senha);
 	}
 	
-	public void setPrazoMatricula()
+	public void setPrazoMatricula(boolean aux, String data)
 	{
-		
+		if(aux=true) {
+			Matricula.setInicio(LocalDate.parse(data));
+		}
+		else
+		{
+			Matricula.setPrazo(LocalDate.parse(data));
+		}
 	}
 	
 	public void adicionarAluno(Aluno aluno,Set<Aluno>alunos)

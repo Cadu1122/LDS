@@ -38,14 +38,12 @@ public class Matricula {
 		return inicio;
 	}
 
-	public static void setPrazo(int dia, int mes, int ano) {
-		LocalDate prazo = LocalDate.of(ano, mes, dia);
-		Matricula.prazo = prazo;
+	public static void setPrazo(LocalDate data) {
+		Matricula.prazo = data;
 	}
 	
-	public static void setInicio(int dia, int mes, int ano) {
-		LocalDate ini = LocalDate.of(ano, mes, dia);
-		Matricula.inicio = ini;
+	public static void setInicio(LocalDate data) {
+		Matricula.inicio = data;
 	}
 
 	public Set<Turma> getTurmas() {
