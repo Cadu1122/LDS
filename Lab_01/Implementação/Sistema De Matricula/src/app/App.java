@@ -9,26 +9,33 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 
 import business.Aluno;
+import business.MatriculaForaDoPrazo;
+import business.MensalidadePaga;
 import business.Professor;
 import business.Secretario;
 import business.Usuario;
 
 public class App {
 	public static final File ARQUIVO_ARMAZENAMENTO = new File("historico.dat");
-	public static Set<Usuario> usuarios = new TreeSet<Usuario>();
+	public static Set<Usuario> usuarios = new HashSet<Usuario>();
 	public static Scanner teclado = new Scanner(System.in);
 	public static int idGenerator = 1;
 
 	public static void main(String[] args) {
 		recuperarUsuarios();
-		inicializaSecretario();// inicializa a criacao do primeiro secretario do sistema
+		//inicializaSecretario();// inicializa a criacao do primeiro secretario do sistema
 		int num, aux;
 		String nome, senha;
+		Usuario x=new Aluno("joao","asda");
+		usuarios.add(x);
 		System.out.println("Digite 1 para cadastrar um usuario ou 0 para sair");
 		num = teclado.nextInt();
 		do {
@@ -38,19 +45,29 @@ public class App {
 				nome = teclado.next();
 				System.out.println("Digite a senha para cadastrar o usuario");
 				senha = teclado.next();
-				System.out
-						.println("Digite 1 para cadastrar o usuario como aluno, 2 para professor e 3 como secretario");
+				System.out.println("Digite 1 para cadastrar o usuario como aluno, 2 para professor e 3 como secretario");
 				aux = teclado.nextInt();
 				switch (aux) {
 				case 1:
 					Aluno aluno = new Aluno(nome, senha);
 					usuarios.add(aluno);
+					System.out.println("digite 0 para sair");
+					num = teclado.nextInt();
+					break;
 				case 2:
 					Professor professor = new Professor(nome, senha);
 					usuarios.add(professor);
+					System.out.println("digite 0 para sair");
+					num = teclado.nextInt();
+					break;
 				case 3:
 					Secretario secretario = new Secretario(nome, senha);
 					usuarios.add(secretario);
+					System.out.println("digite 0 para sair");
+					num = teclado.nextInt();
+					break;
+				default:
+					System.out.println("Numero digitado invalido "+num);
 				}
 
 			case 2:
@@ -73,7 +90,70 @@ public class App {
 				nome=teclado.next();
 				System.out.println("Digite a senha");
 				senha=teclado.next();
-				usuarios.stream().filter(u->u instanceof Usuario).filter(u->u.getNome().contains(nome))
+				for (Usuario u:usuarios)
+				{
+					if (u.getNome().equals(nome)&&u.getSenha().equals(senha))
+					{
+						if (u instanceof Aluno)
+						{
+							System.out.println("Digite 1 para realizar matricula");
+							System.out.println("Digite 2 para realizar calcular mensalidade");
+							System.out.println("Digite 3 para pagar a mensalidade");
+							num=teclado.nextInt();
+							do {
+								switch (num)
+								{
+								case 1:
+									try {
+										((Aluno) u).matricular();
+										System.out.println("digite 0 para sair");
+										num = teclado.nextInt();
+										break;
+									} catch (MatriculaForaDoPrazo e) {
+										System.out.println(e.getMessage());
+										System.out.println("digite 0 para sair");
+										num = teclado.nextInt();
+										break;
+									}
+								case 2:
+									((Aluno) u).calcularMensalidade();
+									System.out.println("digite 0 para sair");
+									num = teclado.nextInt();
+									break;
+								case 3:
+									try {
+										((Aluno) u).pagarMensalidade();
+										System.out.println("digite 0 para sair");
+										num = teclado.nextInt();
+										break;
+									} catch (MensalidadePaga e) {
+										System.out.println(e.getMessage());
+										System.out.println("digite 0 para sair");
+										num = teclado.nextInt();
+										break;
+									}
+									default:
+										System.out.println("numero digitado incorreto "+num);
+								}
+									
+							}while(num!=0);
+						}
+						else if(u instanceof Professor)
+						{
+							System.out.println("Digite 1 para listar as turmas do professor");
+							do {
+								switch(num)
+								{
+								
+								}
+							}while(num!=0);
+						}
+						else if (u instanceof Secretario)
+						{
+							
+						}
+					}
+				}
 			}
 		}while(num!=0);
 		armazenarUsuarios();
@@ -152,6 +232,7 @@ public class App {
 		if (usuarios.size()==0)
 		{
 			Secretario secretario=new Secretario("Adao","1234");
+			usuarios.add(secretario);
 		}
 	}
 }
