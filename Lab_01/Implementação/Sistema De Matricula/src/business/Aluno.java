@@ -1,6 +1,8 @@
+package business;
+
 import java.time.LocalDate;
 
-public class Aluno {
+public class Aluno extends Usuario {
 private static int MAX_DOBRIGATORIAS = 4;
 private static int MAX_DOPTATIVAS = 2;
 private double ValorMensalidade;
@@ -8,8 +10,8 @@ private Matricula matricula;
 private boolean pagouMes;
 private LocalDate dataPagamento;
 
-public Aluno() {
-	super();
+public Aluno(String nome, String senha) {
+	super(nome, senha);
 	this.pagouMes=false;
 	this.dataPagamento = LocalDate.now();
 }
@@ -50,7 +52,7 @@ public void setMensalidade() {
 public double calcularMensalidade() {
 	if(this.pagouMes==false) {
 	return this.matricula.getTurmas().stream().filter(t->t instanceof Turma)
-			.mapToDouble(Turma::getValor).sum();
+			.mapToDouble(Turma::getValorMensalidade).sum();
 	}
 	else
 		return 0.00;

@@ -1,3 +1,5 @@
+package business;
+
 import java.time.LocalDate;
 
 public class MatriculaForaDoPrazo extends Exception {

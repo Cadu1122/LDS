@@ -10,6 +10,7 @@ public class Turma {
 	private String nome;
 	private Set<Curso> cursos;
 	private boolean obrigatorio;
+	private double valorMensalidade;
 	private int qtdAlunos;
 
 	public boolean isAtivo() {
@@ -42,6 +43,14 @@ public class Turma {
 
 	public Set<Curso> getCursos() {
 		return cursos;
+	}
+
+	public void setValorMensalidade(double valorMensalidade) {
+		this.valorMensalidade = valorMensalidade;
+	}
+
+	public double getValorMensalidade() {
+		return valorMensalidade;
 	}
 
 	public void addCurso(Curso curso) {

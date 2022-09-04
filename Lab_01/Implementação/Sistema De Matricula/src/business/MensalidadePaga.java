@@ -1,3 +1,5 @@
+package business;
+
 import java.time.LocalDate;
 
 public class MensalidadePaga extends Exception {
@@ -9,6 +11,6 @@ public class MensalidadePaga extends Exception {
 	}
 	
 	public String getMassege() {
-		return ("A mensalidade deste mes já foi paga no dia " + this.data);
+		return ("A mensalidade deste mes jï¿½ foi paga no dia " + this.data);
 	}
 }

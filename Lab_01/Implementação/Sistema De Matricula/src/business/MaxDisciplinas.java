@@ -1,3 +1,4 @@
+package business;
 
 public class MaxDisciplinas extends Exception {
 
@@ -13,10 +14,10 @@ public class MaxDisciplinas extends Exception {
 	
 	public String getMassege() {
 		if(obrigatorias==true) {
-			return ("Você alcançou limite de "+ this.num + "disciplinas obrigatórias cadastradas.");
+			return ("Vocï¿½ alcanï¿½ou limite de "+ this.num + "disciplinas obrigatï¿½rias cadastradas.");
 		}
 		else {
-			return ("Você alcançou limite de "+ this.num + "disciplinas optativas cadastradas.");
+			return ("Vocï¿½ alcanï¿½ou limite de "+ this.num + "disciplinas optativas cadastradas.");
 		}
 		
 	}

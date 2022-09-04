@@ -1,3 +1,5 @@
+package business;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,11 +54,11 @@ public class Matricula {
 
 	//metodos para retornar o numero de disciplinas ja cadastradas 
 	public int getNumDObrigatorias() {
-		return this.turmas.stream().filter(t->t.isObrigatoria()==true).collect(Collectors.toList()).size();
+		return this.turmas.stream().filter(t->t.isObrigatorio()==true).collect(Collectors.toList()).size();
 	}
 	
 	public int getNumDOptativas() {
-		return this.turmas.stream().filter(t->t.isObrigatoria()==false).collect(Collectors.toList()).size();
+		return this.turmas.stream().filter(t->t.isObrigatorio()==false).collect(Collectors.toList()).size();
 	}
 	
 }
