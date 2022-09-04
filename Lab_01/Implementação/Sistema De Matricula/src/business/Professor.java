@@ -19,7 +19,12 @@ public class Professor extends Usuario {
 	}
 
 	public String listarTurma() {
-		return "";
+		String listaDeTurma="";
+		for (Turma turma:turmas)
+		{
+			listaDeTurma+=turma.getNome();
+		}
+		return listaDeTurma;
 	}
 
 }
