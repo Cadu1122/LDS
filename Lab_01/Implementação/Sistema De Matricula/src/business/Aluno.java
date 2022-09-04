@@ -1,52 +1,93 @@
-package business;
+import java.time.LocalDate;
 
-public class Aluno extends Usuario {
-	private double ValorMensalidade;
-	private static final int DISCIPLINA_OBRIGATORIAS = 4;
-	private Curso curso;
-	private static final int DISCIPLINA_OPTATIVA = 2;
+public class Aluno {
+private static int MAX_DOBRIGATORIAS = 4;
+private static int MAX_DOPTATIVAS = 2;
+private double ValorMensalidade;
+private Matricula matricula;
+private boolean pagouMes;
+private LocalDate dataPagamento;
 
-	public double getValorMensalidade() {
-		return ValorMensalidade;
+public Aluno() {
+	super();
+	this.pagouMes=false;
+	this.dataPagamento = LocalDate.now();
+}
+
+public void matricular() throws MatriculaForaDoPrazo{
+	if(LocalDate.now().isAfter(Matricula.getPrazo())) {
+		throw new MatriculaForaDoPrazo(Matricula.getPrazo(),true);
 	}
-
-	public void setValorMensalidade(double valorMensalidade) {
-		ValorMensalidade = valorMensalidade;
+	else if(LocalDate.now().isBefore(Matricula.getInicio())){
+		throw new MatriculaForaDoPrazo(Matricula.getInicio(),false);		
 	}
-
-	public Curso getCurso() {
-		return curso;
+	else {
+		Matricula m = new Matricula();
+		this.matricula = m;
 	}
+}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+//adiciona turma/disciplina na matricula do aluno
+public void cadastraTurma(Turma t) throws MaxDisciplinas{
+	if(this.matricula.getNumDObrigatorias()== MAX_DOBRIGATORIAS) {
+		throw new MaxDisciplinas(true,MAX_DOBRIGATORIAS);
 	}
-
-	public static int getDisciplinaObrigatorias() {
-		return DISCIPLINA_OBRIGATORIAS;
+	else if(this.matricula.getNumDOptativas()== MAX_DOPTATIVAS) {
+		throw new MaxDisciplinas(false,MAX_DOPTATIVAS);
 	}
-
-	public static int getDisciplinaOptativa() {
-		return DISCIPLINA_OPTATIVA;
+	else {
+		this.matricula.addTurma(t);
+		setMensalidade();
 	}
+}
 
+
+public void setMensalidade() {
+	this.ValorMensalidade=calcularMensalidade();
+}
+
+//soma o valor das turmas cadastradas
+public double calcularMensalidade() {
+	if(this.pagouMes==false) {
+	return this.matricula.getTurmas().stream().filter(t->t instanceof Turma)
+			.mapToDouble(Turma::getValor).sum();
+	}
+	else
+		return 0.00;
+}
+
+public void cancelarMatricula() {
+	this.matricula = null;
+}
+
+public void pagarMensalidade() throws MensalidadePaga{
+	if(this.pagouMes==false) {
+		this.pagouMes=true;
+		this.dataPagamento=LocalDate.now();
+	}
+	else {
+		throw new MensalidadePaga(this.dataPagamento);
+	}
 	
+	
+}
 
-	public Aluno(String nome, String senha, double valorMensalidade, Curso curso) {
-		super(nome, senha);
-		ValorMensalidade = valorMensalidade;
-		this.curso = curso;
+public double getValorMensalidade() {
+	return ValorMensalidade;
+}
+
+public Matricula getMatricula() {
+	return matricula;
+}
+
+public void consultaMensalidade() {
+	if(this.dataPagamento.isBefore(LocalDate.now().minusMonths(1))) {
+		this.pagouMes=false;
 	}
-
-	public void matricular() {
-
+	else
+	{
+		this.pagouMes=true;
 	}
+}
 
-	public double calcularMensalidade() {
-		return 0;
-	}
-
-	public void pagarMensalidade() {
-
-	}
 }
