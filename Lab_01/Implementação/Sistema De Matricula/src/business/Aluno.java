@@ -1,8 +1,9 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Aluno extends Usuario {
+public class Aluno extends Usuario implements Serializable{
 private static int MAX_DOBRIGATORIAS = 4;
 private static int MAX_DOPTATIVAS = 2;
 private double ValorMensalidade;

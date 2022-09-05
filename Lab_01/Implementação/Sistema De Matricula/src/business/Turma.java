@@ -1,9 +1,10 @@
 package business;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Turma {
+public class Turma implements Serializable{
 	private boolean ativo;
 	private static final int MIN_ALUNOS = 3;
 	private static final int MAX_ALUNOS = 60;
@@ -73,7 +74,7 @@ public class Turma {
 		return this.qtdAlunos >= MIN_ALUNOS;
 	}
 
-	public void adicionarAluno(Aluno aluno) {
+	public void adicionaAluno(Aluno aluno) {
 		if(this.qtdAlunos >= 60) {
 			throw new IllegalStateException("Turma está com número máximo de alunos");
 		}

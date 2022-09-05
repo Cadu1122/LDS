@@ -1,8 +1,9 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class MatriculaForaDoPrazo extends Exception {
+public class MatriculaForaDoPrazo extends Exception implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private LocalDate prazo;

@@ -1,6 +1,8 @@
 package business;
 
-public enum Curso {
+import java.io.Serializable;
+
+public enum Curso implements Serializable{
 	ENGENHARIA_DE_SOFTWARE(60),
 	CIENCIAS_DA_COMPUTACAO(50),
 	ENGENHARIA_CIVIL(45),

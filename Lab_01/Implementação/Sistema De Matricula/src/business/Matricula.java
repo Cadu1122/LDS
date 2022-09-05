@@ -1,11 +1,12 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Matricula {
+public class Matricula implements Serializable{
 	//atributos:
 	
 	private static LocalDate prazo;

@@ -1,9 +1,10 @@
 package business;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class Secretario extends Usuario{
+public class Secretario extends Usuario implements Serializable{
 
 	public Secretario(String nome, String senha) {
 		super(nome, senha);

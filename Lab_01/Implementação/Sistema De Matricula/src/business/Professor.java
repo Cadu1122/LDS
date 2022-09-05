@@ -1,8 +1,9 @@
 package business;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Professor extends Usuario {
+public class Professor extends Usuario implements Serializable{
 	private Set<Turma> turmas;
 
 	public Set<Turma> getTurmas() {

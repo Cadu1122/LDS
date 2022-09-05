@@ -1,6 +1,8 @@
 package business;
 
-public class MaxDisciplinas extends Exception {
+import java.io.Serializable;
+
+public class MaxDisciplinas extends Exception implements Serializable{
 
 	private static final long serialVersionUID = 2L;
 	private boolean obrigatorias;
