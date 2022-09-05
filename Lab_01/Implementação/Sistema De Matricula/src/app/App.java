@@ -21,17 +21,19 @@ import business.MatriculaForaDoPrazo;
 import business.MensalidadePaga;
 import business.Professor;
 import business.Secretario;
+import business.Turma;
 import business.Usuario;
 
 public class App {
 	public static final File ARQUIVO_ARMAZENAMENTO = new File("historico.dat");
 	public static Set<Usuario> usuarios = new HashSet<Usuario>();
+	public static Set<Turma> turmas = new HashSet<Turma>();
 	public static Scanner teclado = new Scanner(System.in);
 	public static int idGenerator = 1;
 
 	public static void main(String[] args) {
 		recuperarUsuarios();
-		//inicializaSecretario();// inicializa a criacao do primeiro secretario do sistema
+		inicializaSecretario();
 		int num, aux;
 		String nome, senha;
 		Usuario x=new Aluno("joao","asda");
@@ -69,14 +71,6 @@ public class App {
 				default:
 					System.out.println("Numero digitado invalido "+num);
 				}
-
-			case 2:
-				// System.out.println("Digite o nome para cadastrar o professor");
-				// nome=teclado.next();
-				// System.out.println("Digite a senha para cadastrar o professor");
-				// senha=teclado.next();
-				// Professor professor=new Professor(nome,senha);
-				// usuarios.add(professor);
 			}
 		} while (num != 0);
 		System.out.println("Digite 1 para realizar login e digite 0 para sair");
@@ -144,12 +138,38 @@ public class App {
 							do {
 								switch(num)
 								{
-								
+								case 1:
+									System.out.println(((Professor) u).listarTurma());
+									System.out.println("digite 0 para sair");
+									num = teclado.nextInt();
+									break;
+								default:
+									System.out.println("Numero digitado invalido "+num);
 								}
 							}while(num!=0);
 						}
 						else if (u instanceof Secretario)
 						{
+							System.out.println("Digite 1 para setar prazo da matricula");
+							System.out.println("Digite 2 para adicionar o aluno");
+							System.out.println("Digite 3 para adicionar o professor");
+							System.out.println("Digite 4 para adicionar turma");
+							System.out.println("Digite 5 para alterar aluno");
+							System.out.println("Digite 6 para alterar professor");
+							System.out.println("Digite 7 para alterar turma");
+							System.out.println("Digite 8 para excluir aluno");
+							System.out.println("Digite 9 para excluir professor");
+							System.out.println("Digite 10 para excluir turma");
+							num = teclado.nextInt();
+							do {
+								switch (num)
+								{
+								case 1:
+									((Secretario) u).setPrazoMatricula();
+								case 2:
+									((Secretario) u).adicionarAluno(null, null);
+								}
+							}
 							
 						}
 					}
