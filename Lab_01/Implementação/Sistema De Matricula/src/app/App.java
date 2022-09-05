@@ -15,6 +15,7 @@ import java.util.Set;
 
 import business.Aluno;
 import business.Curso;
+import business.Matricula;
 import business.MatriculaForaDoPrazo;
 import business.MensalidadePaga;
 import business.Professor;
@@ -28,52 +29,19 @@ public class App {
 	public static Set<Turma> turmas = new HashSet<Turma>();
 	public static Scanner teclado = new Scanner(System.in);
 	public static int idGenerator = 1;
-
+	public static Matricula origem;
+	
 	public static void main(String[] args) {
 		recuperarUsuarios();
-		inicializaSecretario();
+		inicializa();
 	//	armazenarUsuarios();
 		int num, aux;
 		String nome, senha;
-		System.out.println("Digite 1 para cadastrar um usuario ou 0 para sair");
-		num = teclado.nextInt();
-		do {
-			switch (num) {
-			case 1:
-				System.out.println("Digite o nome para cadastrar o usuario");
-				nome = teclado.next();
-				System.out.println("Digite a senha para cadastrar o usuario");
-				senha = teclado.next();
-				System.out.println("Digite 1 para cadastrar o usuario como aluno, 2 para professor e 3 como secretario");
-				aux = teclado.nextInt();
-				switch (aux) {
-				case 1:
-					Aluno aluno = new Aluno(nome, senha);
-					usuarios.add(aluno);
-					System.out.println("digite 0 para sair");
-					num = teclado.nextInt();
-					break;
-				case 2:
-					Professor professor = new Professor(nome, senha);
-					usuarios.add(professor);
-					System.out.println("digite 0 para sair");
-					num = teclado.nextInt();
-					break;
-				case 3:
-					Secretario secretario = new Secretario(nome, senha);
-					usuarios.add(secretario);
-					System.out.println("digite 0 para sair");
-					num = teclado.nextInt();
-					break;					
-				default:
-					System.out.println("Numero digitado invalido "+num);
-				}
-			}
-		} while (num != 0);
-		System.out.println("Digite 1 para realizar login e digite 0 para sair");
-		num=teclado.nextInt();
+		
 		do
 		{
+			System.out.println("Digite 1 para realizar login e digite 0 para sair");
+			num=teclado.nextInt();
 			switch (num)
 			{
 			case 1:
@@ -83,15 +51,17 @@ public class App {
 				senha=teclado.next();
 				for (Usuario u:usuarios)
 				{
-					if (u.getNome().equals(nome)&&u.getSenha().equals(senha))
+					if (u.getNome().equals(nome) && u.getSenha().equals(senha))
 					{
 						if (u instanceof Aluno)
 						{
-							System.out.println("Digite 1 para realizar matricula");
-							System.out.println("Digite 2 para realizar calcular mensalidade");
-							System.out.println("Digite 3 para pagar a mensalidade");
-							num=teclado.nextInt();
+							
 							do {
+								System.out.println("Digite 1 para realizar matricula");
+								System.out.println("Digite 2 para realizar calcular mensalidade");
+								System.out.println("Digite 3 para pagar a mensalidade");
+								System.out.println("Digite 0 para sair");
+								num=teclado.nextInt();
 								switch (num)
 								{
 								case 1:
@@ -123,6 +93,9 @@ public class App {
 										num = teclado.nextInt();
 										break;
 									}
+								case 0:
+									System.out.println("----------------------------");
+									break;
 									default:
 										System.out.println("numero digitado incorreto "+num);
 								}
@@ -131,8 +104,10 @@ public class App {
 						}
 						else if(u instanceof Professor)
 						{
-							System.out.println("Digite 1 para listar as turmas do professor");
+							
 							do {
+								System.out.println("Digite 1 para listar as turmas do professor");
+								num = teclado.nextInt();
 								switch(num)
 								{
 								case 1:
@@ -147,16 +122,27 @@ public class App {
 						}
 						else if (u instanceof Secretario)
 						{
-							System.out.println("Digite 1 para setar prazo da matricula");					
-							System.out.println("Digite 2 para adicionar turma");
-							System.out.println("Digite 3 para alterar ou excluir um usuario");
-							System.out.println("Digite 4 para alterar ou excluir uma turma");
-							num = teclado.nextInt();
+							
 							do {
+								System.out.println("Digite 1 para setar prazo da matricula");					
+								System.out.println("Digite 2 para adicionar turma");
+								System.out.println("Digite 3 para alterar ou excluir um usuario");
+								System.out.println("Digite 4 para alterar ou excluir uma turma");
+								System.out.println("Digite 5 para realizar um cadastro de usuario");
+								System.out.println("Digite 0 para sair");
+								num = teclado.nextInt();
+								teclado.nextLine();
 								switch (num)
 								{
 								case 1:
-						//			((Secretario) u).setPrazoMatricula();
+									System.out.println("Insira a data de inicio no seguinte formato:");
+									System.out.println("ano-mes-dia ex: 2000/12/2");
+									String inicio = teclado.nextLine();
+									((Secretario) u).setPrazoMatricula(true, inicio);
+									System.out.println("Insira a data de termino no mesmo formato:");
+									String termino = teclado.nextLine();
+									((Secretario) u).setPrazoMatricula(false, termino);
+									break;
 								case 2:
 									System.out.println("Insira o nome da turma");
 									 nome= teclado.next();
@@ -169,14 +155,15 @@ public class App {
 									 else {
 										 obrigatoria=false; 
 									 }
-									 System.out.println("Digite o curso ligado a turma");
-									 System.out.println("1 Para Engenharia de Software");
-									 System.out.println("2 Para Ciencias da Computacao");
-									 System.out.println("3 Para Engenharia Civil");
-									 System.out.println("4 Para Administracao");
-									 System.out.println("0 Para sair");
-									 num = teclado.nextInt();
+									
 										do {
+											 System.out.println("Digite o curso ligado a turma");
+											 System.out.println("1 Para Engenharia de Software");
+											 System.out.println("2 Para Ciencias da Computacao");
+											 System.out.println("3 Para Engenharia Civil");
+											 System.out.println("4 Para Administracao");
+											 System.out.println("0 Para sair");
+											 num = teclado.nextInt();
 											switch (num)
 											{
 											case 1:
@@ -199,10 +186,16 @@ public class App {
 												num = teclado.nextInt();
 												turmas.add(t4);
 												break;
+											case 0:
+												System.out.println("----------------------------");
+												break;
 											default:
 												System.out.println("Numero digitado invalido "+num);
-											}																				 
+												break;
+											}	
+											System.out.println("Turma criada com sucesso");
 								}while(num!=0);
+										break;
 								case 3:
 									System.out.println("Digite o nome do usuário "+num);
 									nome=teclado.next();
@@ -255,7 +248,8 @@ public class App {
 											{
 												obrig= false;
 											}
-											((Secretario) u).alterarTurma(t, novoNome, obrig);
+												((Secretario) u).alterarTurma(t, novoNome, obrig);
+												System.out.println("Turma alterada");
 											}
 										}
 									}
@@ -263,20 +257,64 @@ public class App {
 										System.out.println("Turma nao encontrada");
 									}
 									break;
+								case 5:
+									
+									do {
+										System.out.println("Digite 1 para cadastrar um usuario ou 0 para sair");
+										num = teclado.nextInt();
+										switch (num) {
+										case 1:
+											System.out.println("Digite o nome para cadastrar o usuario");
+											nome = teclado.next();
+											System.out.println("Digite a senha para cadastrar o usuario");
+											senha = teclado.next();
+											System.out.println("Digite 1 para cadastrar o usuario como aluno, 2 para professor e 3 como secretario");
+											aux = teclado.nextInt();
+											switch (aux) {
+											case 1:
+												Usuario aluno = new Aluno(nome, senha);
+												usuarios.add(aluno);
+												System.out.println("digite 0 para sair");
+												num = teclado.nextInt();
+												break;
+											case 2:
+												Usuario professor = new Professor(nome, senha);
+												usuarios.add(professor);
+												System.out.println("digite 0 para sair");
+												num = teclado.nextInt();
+												break;
+											case 3:
+												Usuario secretario = new Secretario(nome, senha);
+												usuarios.add(secretario);
+												System.out.println("digite 0 para sair");
+												num = teclado.nextInt();
+												break;
+											case 0:
+												System.out.println("----------------------------");
+												break;
+										default:
+											System.out.println("Numero digitado invalido "+num);
+											break;
+											}
+										}
+									} while (num != 0);	
+									break;
+								case 0:
+									System.out.println("----------------------------");
+									break;
+								default:
+									System.out.println("Número invalido");
+									break;
 						  }
 						}while(num!=0);
 					}
 						
 				}
-					else 
-					{
-						System.out.println("Nome ou senha invalidos");
-						num = 0;
-						break;
-					}
+
 					
 			}}
 		}while(num!=0);
+			
 		armazenarUsuarios();
 		
 	}
@@ -348,7 +386,7 @@ public class App {
 			esperar();
 		}
 	}
-	public static void inicializaSecretario()
+	public static void inicializa()
 	{
 		if (usuarios.size()==0)
 		{
