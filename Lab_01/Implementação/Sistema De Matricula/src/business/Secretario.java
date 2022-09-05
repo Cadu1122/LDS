@@ -32,28 +32,19 @@ public class Secretario extends Usuario{
 	{
 		turmas.add(turma);
 	}
-	public void alterarAluno(Aluno aluno,String nome,String senha)
+	public void alterarUsuario(Usuario user,String nome,String senha)
 	{
-		aluno.setNome(nome);
-		aluno.setSenha(senha);
-	}
-	public void alterarProfessor(Professor professor,String nome,String senha)
-	{
-		professor.setNome(nome);
-		professor.setSenha(senha);
+		user.setNome(nome);
+		user.setSenha(senha);
 	}
 	public void alterarTurma(Turma turma,String nome,boolean obrigatorio)
 	{
 		turma.setNome(nome);
 		turma.setObrigatorio(obrigatorio);
 	}
-	public void excluirAluno(Aluno aluno,Set<Aluno>alunos)
+	public void excluirUsuario(Usuario user,Set<Usuario>usuarios)
 	{
-		alunos.remove(aluno);
-	}
-	public void excluirProfessor(Professor professor,Set<Professor>professores)
-	{
-		professores.remove(professor);
+		usuarios.remove(user);
 	}
 	public void excluirTurma(Turma turma,Set<Turma>turmas)
 	{
