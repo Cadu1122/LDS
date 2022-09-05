@@ -9,14 +9,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.TreeSet;
 
 import business.Aluno;
+import business.Curso;
 import business.MatriculaForaDoPrazo;
 import business.MensalidadePaga;
 import business.Professor;
@@ -34,10 +32,9 @@ public class App {
 	public static void main(String[] args) {
 		recuperarUsuarios();
 		inicializaSecretario();
+	//	armazenarUsuarios();
 		int num, aux;
 		String nome, senha;
-		Usuario x=new Aluno("joao","asda");
-		usuarios.add(x);
 		System.out.println("Digite 1 para cadastrar um usuario ou 0 para sair");
 		num = teclado.nextInt();
 		do {
@@ -67,7 +64,7 @@ public class App {
 					usuarios.add(secretario);
 					System.out.println("digite 0 para sair");
 					num = teclado.nextInt();
-					break;
+					break;					
 				default:
 					System.out.println("Numero digitado invalido "+num);
 				}
@@ -150,31 +147,135 @@ public class App {
 						}
 						else if (u instanceof Secretario)
 						{
-							System.out.println("Digite 1 para setar prazo da matricula");
-							System.out.println("Digite 2 para adicionar o aluno");
-							System.out.println("Digite 3 para adicionar o professor");
-							System.out.println("Digite 4 para adicionar turma");
-							System.out.println("Digite 5 para alterar aluno");
-							System.out.println("Digite 6 para alterar professor");
-							System.out.println("Digite 7 para alterar turma");
-							System.out.println("Digite 8 para excluir aluno");
-							System.out.println("Digite 9 para excluir professor");
-							System.out.println("Digite 10 para excluir turma");
+							System.out.println("Digite 1 para setar prazo da matricula");					
+							System.out.println("Digite 2 para adicionar turma");
+							System.out.println("Digite 3 para alterar ou excluir um usuario");
+							System.out.println("Digite 4 para alterar ou excluir uma turma");
 							num = teclado.nextInt();
 							do {
 								switch (num)
 								{
 								case 1:
-									((Secretario) u).setPrazoMatricula();
+						//			((Secretario) u).setPrazoMatricula();
 								case 2:
-									((Secretario) u).adicionarAluno(null, null);
-								}
+									System.out.println("Insira o nome da turma");
+									 nome= teclado.next();
+									 System.out.println("Caso for uma disciplina obrigatoria digite 1");
+									 num=teclado.nextInt();
+									 boolean obrigatoria;
+									 if(num==1) {
+										 obrigatoria=true;
+									 }
+									 else {
+										 obrigatoria=false; 
+									 }
+									 System.out.println("Digite o curso ligado a turma");
+									 System.out.println("1 Para Engenharia de Software");
+									 System.out.println("2 Para Ciencias da Computacao");
+									 System.out.println("3 Para Engenharia Civil");
+									 System.out.println("4 Para Administracao");
+									 System.out.println("0 Para sair");
+									 num = teclado.nextInt();
+										do {
+											switch (num)
+											{
+											case 1:
+												Turma t = new Turma(nome,Curso.ENGENHARIA_DE_SOFTWARE,obrigatoria);
+												num = teclado.nextInt();
+												turmas.add(t);
+												break;
+											case 2:
+												Turma t2 = new Turma(nome,Curso.CIENCIAS_DA_COMPUTACAO,obrigatoria);
+												num = teclado.nextInt();
+												turmas.add(t2);
+												break;
+											case 3:
+												Turma t3 = new Turma(nome,Curso.ENGENHARIA_CIVIL,obrigatoria);
+												num = teclado.nextInt();
+												turmas.add(t3);
+												break;
+											case 4:
+												Turma t4 = new Turma(nome,Curso.ADMINISTRACAO,obrigatoria);
+												num = teclado.nextInt();
+												turmas.add(t4);
+												break;
+											default:
+												System.out.println("Numero digitado invalido "+num);
+											}																				 
+								}while(num!=0);
+								case 3:
+									System.out.println("Digite o nome do usuário "+num);
+									nome=teclado.next();
+									@SuppressWarnings("unused") boolean usuarioEncontrado = false;
+									for (Usuario u2:usuarios)
+									{
+										
+										if (u2.getNome().equals(nome))
+										{
+										System.out.println("Voce deseja altera ou excluir o usuario? 1 Para alterar 2 Para Excluir");
+											if(teclado.nextInt()==2) {
+												((Secretario) u).excluirUsuario(u2, usuarios);
+												System.out.println("Usuario excluido com sucesso");
+											}
+											usuarioEncontrado = true;
+											System.out.println("Digite o novo nome do usuário ");
+											String novoNome = teclado.next();
+											System.out.println("Digite a nova senha do usuário ");
+											String novaSenha = teclado.next();
+											((Secretario) u).alterarUsuario(u, novoNome, novaSenha);
+										}
 							}
-							
-						}
+									if(usuarioEncontrado = false) {
+										System.out.println("Usuario nao encontrado");
+									}
+									break;
+								case 4:
+									System.out.println("Digite o nome da turma ");
+									nome=teclado.next();
+									boolean turmaEncontrada = false;
+									for (Turma t:turmas)
+									{
+										if (t.getNome().equals(nome))
+										{
+											System.out.println("Voce deseja altera ou excluir a turma? 1 Para alterar 2 Para Excluir");
+											if(teclado.nextInt()==2) {
+												((Secretario) u).excluirTurma(t, turmas);
+												System.out.println("Turma excluida com sucesso");
+											}
+											else {
+											turmaEncontrada = true;
+											System.out.println("Digite o novo nome da turma ");
+											String novoNome = teclado.next();
+											System.out.println("Turma obrigatoria? Digite 1 para sim outro número para não");
+											boolean obrig;
+											if(teclado.nextInt()==1) {
+												obrig= true;
+											}
+											else
+											{
+												obrig= false;
+											}
+											((Secretario) u).alterarTurma(t, novoNome, obrig);
+											}
+										}
+									}
+									if(turmaEncontrada==false) {
+										System.out.println("Turma nao encontrada");
+									}
+									break;
+						  }
+						}while(num!=0);
 					}
+						
 				}
-			}
+					else 
+					{
+						System.out.println("Nome ou senha invalidos");
+						num = 0;
+						break;
+					}
+					
+			}}
 		}while(num!=0);
 		armazenarUsuarios();
 		
@@ -211,7 +312,7 @@ public class App {
 	}
 
 	/**
-	 * DÃ¡ ao usuÃ¡rio tempo para ler a mensagem na tela
+	 * Dá ao usuário tempo para ler a mensagem na tela
 	 */
 	public static void esperar() {
 		System.out.println("---------------------------------------------");
@@ -237,7 +338,7 @@ public class App {
 			System.err.println("Ocorreu um erro ao salvar os arquivos.");
 			esperar();
 		} catch (NotSerializableException e) {
-			System.err.println("NÃ£o foi possivel tranferir os dados para o arquivo.");
+			System.err.println("Não foi possivel tranferir os dados para o arquivo.");
 			esperar();
 		} catch (IOException e) {
 			System.err.println("Ocorreu um erro ao acessar os arquivos.");
