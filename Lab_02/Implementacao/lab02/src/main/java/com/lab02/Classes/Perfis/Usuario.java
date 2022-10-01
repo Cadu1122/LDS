@@ -1,4 +1,4 @@
-package com.lab02.Classes;
+package com.lab02.Classes.Perfis;
 
 import java.io.Serializable;
 
@@ -61,5 +61,12 @@ public class Usuario implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public boolean login(Integer id, String senha) {
+        if(this.senha.equals(senha)) {
+            return true;
+        }
+        return false;
     }
 }

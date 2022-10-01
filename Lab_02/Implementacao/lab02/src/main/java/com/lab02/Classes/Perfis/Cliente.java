@@ -1,4 +1,4 @@
-package com.lab02.Classes;
+package com.lab02.Classes.Perfis;
 
 import java.util.Map;
 
@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class Cliente extends Usuario {
+    public static final int MAX_ENTIDADES = 3;
+
     @NotBlank
     @NotNull
     private String cpf;
@@ -72,7 +74,14 @@ public class Cliente extends Usuario {
     }
 
     public void setCredito(Double credito) {
+        if(credito < 0) {
+            throw new IllegalStateException("A quantidade de créditos não pode ser menor que 0");
+        }
         this.credito = credito;
+    }
+
+    public void adicionarCredito(int valor) {
+        this.credito += credito;
     }
     
 }

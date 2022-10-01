@@ -4,7 +4,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.lab02.Classes.Cliente;
+import com.lab02.Classes.Perfis.Cliente;
 
 public class ClienteDTO extends UsuarioDTO {
     @NotBlank

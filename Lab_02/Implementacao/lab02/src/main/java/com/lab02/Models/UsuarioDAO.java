@@ -12,8 +12,8 @@ import java.io.StreamCorruptedException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.lab02.Classes.Cliente;
-import com.lab02.Classes.Usuario;
+import com.lab02.Classes.Perfis.Usuario;
+import com.lab02.Classes.Perfis.Cliente;
 
 public class UsuarioDAO {
     private static final File ARQUIVO_ARMAZENAMENTO = new File("Usuarios.dat");
@@ -65,6 +65,17 @@ public class UsuarioDAO {
                .filter(u -> u.getId().equals(id))
                .findFirst()
                .orElse(null);
+    }
+
+    public boolean isLoginValido(Integer id, String senha) {
+        Usuario usuario = usuarios.stream()
+                            .filter(u -> id.equals(u.getId()))
+                            .findFirst()
+                            .orElse(null);
+        if(usuario == null) {
+            return false;
+        }
+        return usuario.login(id, senha);
     }
 
     public boolean alterarCliente(Integer id, Cliente cliente) {

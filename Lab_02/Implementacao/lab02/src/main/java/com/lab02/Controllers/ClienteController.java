@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lab02.Classes.Cliente;
+import com.lab02.Classes.Perfis.Cliente;
 import com.lab02.DTOS.ClienteDTO;
 import com.lab02.Models.UsuarioDAO;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ public class ClienteController {
     UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @GetMapping
-    public ModelAndView getUsuario(ClienteDTO clienteDTO) {
+    public ModelAndView getCliente(ClienteDTO clienteDTO) {
         ModelAndView modelAndView = new ModelAndView("Clientes/index");
         modelAndView.addObject("clientes", usuarioDAO.getUsuarios().stream()
         .filter(u -> u instanceof Cliente)
@@ -38,7 +38,7 @@ public class ClienteController {
     }
 
     @GetMapping(path = "/{id}/edit")
-    public ModelAndView putUsuario(@PathVariable Integer id) {
+    public ModelAndView putCliente(@PathVariable Integer id) {
         Cliente cliente = (Cliente) usuarioDAO.encontrarUsuario(id);
         if (cliente == null) {
             return new ModelAndView("redirect:/clientes");
@@ -79,5 +79,22 @@ public class ClienteController {
     public ModelAndView deleteCliente(@PathVariable Integer id) {
         usuarioDAO.excluirUsuario(id);
         return new ModelAndView("redirect:/clientes");
+    }
+
+    @GetMapping("/login")
+    public ModelAndView login() {
+        ModelAndView modelAndView = new ModelAndView("Clientes/login");
+        return modelAndView;
+    }
+
+    @PostMapping("/login")
+    public ModelAndView verificarLogin(Integer id, String senha) {
+        if(usuarioDAO.isLoginValido(id, senha)) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
+            modelAndView.addObject("clienteDTO", usuarioDAO.encontrarUsuario(id));
+            return modelAndView;
+        } else {
+            return new ModelAndView("redirect:/clientes/login");
+        }
     }
 }
