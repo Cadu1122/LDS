@@ -83,5 +83,18 @@ public class Cliente extends Usuario {
     public void adicionarCredito(int valor) {
         this.credito += credito;
     }
+
+    @Override
+    public String toString() {
+        return "Cliente: " + this.getId();
+    }
     
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Cliente) {
+            Cliente cliente = (Cliente) obj;
+            return getId().equals(cliente.getId());
+        }
+        return false;
+    }
 }

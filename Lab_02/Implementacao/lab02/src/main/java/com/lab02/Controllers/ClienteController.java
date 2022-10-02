@@ -39,7 +39,7 @@ public class ClienteController {
 
     @GetMapping(path = "/{id}/edit")
     public ModelAndView putCliente(@PathVariable Integer id) {
-        Cliente cliente = (Cliente) usuarioDAO.encontrarUsuario(id);
+        Cliente cliente = (Cliente) UsuarioDAO.encontrarUsuario(id);
         if (cliente == null) {
             return new ModelAndView("redirect:/clientes");
         } else {
@@ -91,7 +91,7 @@ public class ClienteController {
     public ModelAndView verificarLogin(Integer id, String senha) {
         if(usuarioDAO.isLoginValido(id, senha)) {
             ModelAndView modelAndView = new ModelAndView("redirect:/pedidos");
-            modelAndView.addObject("clienteDTO", usuarioDAO.encontrarUsuario(id));
+            modelAndView.addObject("clienteDTO", UsuarioDAO.encontrarUsuario(id));
             return modelAndView;
         } else {
             return new ModelAndView("redirect:/clientes/login");

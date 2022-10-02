@@ -8,6 +8,10 @@ public class Pedido {
     private int avaliacao;
     private Estado estado;
 
+    public Pedido() {
+        
+    }
+
     public Pedido(Cliente locatario, Automovel automovel) {
         this.locatario = locatario;
         this.automovel = automovel;

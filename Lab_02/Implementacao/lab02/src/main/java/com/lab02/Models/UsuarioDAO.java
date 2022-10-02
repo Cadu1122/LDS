@@ -17,8 +17,16 @@ import com.lab02.Classes.Perfis.Cliente;
 
 public class UsuarioDAO {
     private static final File ARQUIVO_ARMAZENAMENTO = new File("Usuarios.dat");
-    private Set<Usuario> usuarios;
+    private static Set<Usuario> usuarios = new HashSet<Usuario>();
     public static int idGenerator = 1;
+
+    public static Usuario encontrarUsuario(Integer id) {
+        recuperarUsuarios();
+        return usuarios.stream()
+               .filter(u -> u.getId().equals(id))
+               .findFirst()
+               .orElse(null);
+    }
 
     public UsuarioDAO() {
         usuarios = new HashSet<Usuario>();
@@ -33,7 +41,7 @@ public class UsuarioDAO {
 	 * Carrega os usuarios do banco de dados
 	 */
 	@SuppressWarnings("unchecked")
-	private void recuperarUsuarios() {
+	private static void recuperarUsuarios() {
 		try {
 			if (ARQUIVO_ARMAZENAMENTO.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(ARQUIVO_ARMAZENAMENTO));
@@ -58,13 +66,6 @@ public class UsuarioDAO {
         usuario.setId(idGenerator++);
         usuarios.add(usuario);
         armazenarUsuarios();
-    }
-
-    public Usuario encontrarUsuario(Integer id) {
-        return usuarios.stream()
-               .filter(u -> u.getId().equals(id))
-               .findFirst()
-               .orElse(null);
     }
 
     public boolean isLoginValido(Integer id, String senha) {
