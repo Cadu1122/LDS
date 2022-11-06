@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.moeda_estudantil.Classes.Aluno;
 import com.moeda_estudantil.Models.AlunoDAO;
+import com.moeda_estudantil.Models.HistoricoDAO;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 @RequestMapping(path = "/alunos")
 public class AlunoController {
-    AlunoDAO alunoDAO = new AlunoDAO();
 
     @GetMapping
     public ModelAndView getAluno(Aluno aluno) {
         ModelAndView modelAndView = new ModelAndView("Alunos/index");
-        modelAndView.addObject("alunos", alunoDAO.getAlunos());
+        modelAndView.addObject("alunos", AlunoDAO.getInstance().getAlunos());
         return modelAndView;
     }
 
@@ -35,7 +35,7 @@ public class AlunoController {
 
     @GetMapping(path = "/{login}/edit")
     public ModelAndView putAluno(@PathVariable String login) {
-        Aluno aluno = (Aluno) alunoDAO.encontrarAluno(login);
+        Aluno aluno = (Aluno) AlunoDAO.getInstance().encontrarAluno(login);
         if (aluno == null) {
             return new ModelAndView("redirect:/alunos");
         } else {
@@ -51,7 +51,7 @@ public class AlunoController {
             ModelAndView modelAndView = new ModelAndView("Alunos/create");
             return modelAndView;
         } else {
-            alunoDAO.criarAluno(aluno);
+            AlunoDAO.getInstance().criarAluno(aluno);
             return new ModelAndView("redirect:/alunos");
         }
     }
@@ -63,15 +63,22 @@ public class AlunoController {
             modelAndView.addObject("aluno", aluno);
             return modelAndView;
         } else {
-            alunoDAO.alterarAluno(login, aluno);
+            AlunoDAO.getInstance().alterarAluno(login, aluno);
             return new ModelAndView("redirect:/alunos");
         }
     }
 
     @GetMapping(path = "/{login}/delete")
     public ModelAndView deleteAluno(@PathVariable String login) {
-        alunoDAO.excluirAluno(login);
+        AlunoDAO.getInstance().excluirAluno(login);
         return new ModelAndView("redirect:/alunos");
+    }
+
+    @GetMapping(path = "/{login}/historico")
+    public ModelAndView getHistorico(@PathVariable String login) {
+        ModelAndView modelAndView = new ModelAndView("Alunos/historico");
+        modelAndView.addObject("historicos", HistoricoDAO.getInstance().encontrar(AlunoDAO.getInstance().encontrarAluno(login)));
+        return modelAndView;
     }
 }
 

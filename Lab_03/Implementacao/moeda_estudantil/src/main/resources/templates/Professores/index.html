@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <title>Lista de Alunos</title>
+    <title>Lista de Professores</title>
 </head>
 
 <body>
 
     <div class="container">
         <div class="row">
-            <h1>Lista de alunos:</h1>
+            <h1>Lista de professores:</h1>
         </div>
         <div class="row">
             <table class="table">
@@ -25,33 +25,24 @@
                         <th scope="col">Nome</th>
                         <th scope="col">CPF</th>
                         <th scope="col">Quantidade de moedas</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">RG</th>
-                        <th scope="col">Endereço</th>
                         <th scope="col">Instituição</th>
-                        <th scope="col">Curso</th>
-                        <th scope="col"></th>
+                        <th scope="col">Departamento</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="aluno : ${alunos}">
-                        <th th:text="${aluno.login}"></th>
-                        <td th:text="${aluno.senha}"></td>
-                        <td th:text="${aluno.nome}"></td>
-                        <td th:text="${aluno.cpf}"></td>
-                        <td th:text="${aluno.moedas}"></td>
-                        <td th:text="${aluno.email}"></td>
-                        <td th:text="${aluno.rg}"></td>
-                        <td th:text="${aluno.endereco}"></td>
-                        <td th:text="${aluno.instituicao}"></td>
-                        <td th:text="${aluno.curso}"></td>
-                        <td><a th:href="@{/alunos/{login}/edit(login = ${aluno.login})}">Alterar dados</a></td>
-                        <td><a th:href="@{/alunos/{login}/delete(login = ${aluno.login})}">Excluir dados</a></td>
+                    <tr th:each="professor : ${professores}">
+                        <th th:text="${professor.login}"></th>
+                        <td th:text="${professor.senha}"></td>
+                        <td th:text="${professor.nome}"></td>
+                        <td th:text="${professor.cpf}"></td>
+                        <td th:text="${professor.moedas}"></td>
+                        <td th:text="${professor.instituicao}"></td>
+                        <td th:text="${professor.departamento}"></td>
+                        <td><a th:href="@{/professores/{login}/historico(login = ${professor.login})}">Acessar Histórico</a></td>
                     </tr>
                 </tbody>
             </table>
-            <a th:href="@{/alunos/new}">Criar nova aluno</a>
         </div>
     </div>
 

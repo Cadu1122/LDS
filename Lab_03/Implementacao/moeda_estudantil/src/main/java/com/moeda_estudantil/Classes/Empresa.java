@@ -20,4 +20,10 @@ public class Empresa extends Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void alterar(Empresa empresaNova) {
+        this.setLogin(empresaNova.getLogin());
+        this.setSenha(empresaNova.getSenha());
+        this.setEmail(empresaNova.getEmail());
+    }
 }

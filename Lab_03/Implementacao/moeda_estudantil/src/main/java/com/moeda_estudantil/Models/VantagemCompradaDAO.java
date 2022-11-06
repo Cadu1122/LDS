@@ -9,47 +9,49 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.moeda_estudantil.Classes.Aluno;
+import com.moeda_estudantil.Classes.VantagemComprada;
 
-public class AlunoDAO {
-    private static final AlunoDAO ALUNO_DAO = new AlunoDAO();
+public class VantagemCompradaDAO {
+    
+    private static final File ARQUIVO_ARMAZENAMENTO = new File("VantagemComprada.dat");
 
-    public static final AlunoDAO getInstance() {
-        return ALUNO_DAO;
+    private static Set<VantagemComprada> vantagensCompradas = new LinkedHashSet<VantagemComprada>();
+
+    private static final VantagemCompradaDAO VANTAGEM_COMPRADA_DAO = new VantagemCompradaDAO();
+
+    public static final VantagemCompradaDAO getInstance() {
+        return VANTAGEM_COMPRADA_DAO;
     }
 
-    private static final File ARQUIVO_ARMAZENAMENTO = new File("Alunos.dat");
-    private static Set<Aluno> alunos = new HashSet<Aluno>();
-
-    public Aluno encontrarAluno(String login) {
-        recuperarAlunos();
-        return alunos.stream()
-               .filter(u -> u.getLogin().equals(login))
-               .findFirst()
-               .orElse(null);
+    public List<VantagemComprada> encontrar(Aluno aluno) {
+        recuperar();
+        return vantagensCompradas.stream()
+               .filter(h -> h.getAluno().equals(aluno))
+               .toList();
     }
 
-    private AlunoDAO() {
-        alunos = new HashSet<Aluno>();
-        recuperarAlunos();
+    private VantagemCompradaDAO() {
+        recuperar();
     }
 
-    public Set<Aluno> getAlunos() {
-        return alunos;
+    public Set<VantagemComprada> getVantagensCompradas() {
+        return vantagensCompradas;
     }
 
 	/**
 	 * Carrega os empresas do banco de dados
 	 */
 	@SuppressWarnings("unchecked")
-	private static void recuperarAlunos() {
+	private static void recuperar() {
 		try {
 			if (ARQUIVO_ARMAZENAMENTO.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(ARQUIVO_ARMAZENAMENTO));
-				alunos = (Set<Aluno>) objectInputStream.readObject();
+				vantagensCompradas = (Set<VantagemComprada>) objectInputStream.readObject();
 				objectInputStream.close();
 			}
 		} catch (SecurityException e) {
@@ -65,31 +67,9 @@ public class AlunoDAO {
 		}
 	}
 
-    public void criarAluno(Aluno aluno) {
-        alunos.add(aluno);
+    public void salvar(VantagemComprada vantagemComprada) {
+        vantagensCompradas.add(vantagemComprada);
         armazenarAlunos();
-    }
-
-    public boolean alterarAluno(String login, Aluno aluno) {
-        Aluno alunoAntigo = (Aluno) encontrarAluno(login);
-        if(alunoAntigo == null) {
-            return false;
-        } else {
-            alunoAntigo.alterar(aluno);
-            armazenarAlunos();
-            return true;
-        }
-    }
-
-    public boolean excluirAluno(String login) {
-        Aluno alunoAntigo = encontrarAluno(login);
-        if(alunoAntigo == null) {
-            return false;
-        } else {
-            alunos.remove(alunoAntigo);
-            armazenarAlunos();
-            return true;
-        }
     }
 
     /**
@@ -101,7 +81,7 @@ public class AlunoDAO {
 				ARQUIVO_ARMAZENAMENTO.createNewFile();
 			}
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(ARQUIVO_ARMAZENAMENTO));
-			objectOutputStream.writeObject(alunos);
+			objectOutputStream.writeObject(vantagensCompradas);
 			objectOutputStream.close();
 		} catch (SecurityException e) {
 			System.err.println("O acesso ao arquivo foi negado.");
