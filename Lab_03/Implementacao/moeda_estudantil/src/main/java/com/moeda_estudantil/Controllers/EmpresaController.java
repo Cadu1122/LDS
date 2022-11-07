@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 @RequestMapping(path = "/empresas")
 public class EmpresaController {
-    EmpresaDAO empresaDAO = new EmpresaDAO();
 
     @GetMapping
     public ModelAndView getEmpresa(Empresa empresa) {
         ModelAndView modelAndView = new ModelAndView("Empresas/index");
-        modelAndView.addObject("empresas", empresaDAO.getEmpresas());
+        modelAndView.addObject("empresas", EmpresaDAO.getInstance().getEmpresas());
         return modelAndView;
     }
 
@@ -36,7 +35,7 @@ public class EmpresaController {
 
     @GetMapping(path = "/{login}/edit")
     public ModelAndView putEmpresa(@PathVariable String login) {
-        Empresa empresa = (Empresa) empresaDAO.encontrarEmpresa(login);
+        Empresa empresa = (Empresa) EmpresaDAO.getInstance().encontrarEmpresa(login);
         if (empresa == null) {
             return new ModelAndView("redirect:/empresas");
         } else {
@@ -52,7 +51,7 @@ public class EmpresaController {
             ModelAndView modelAndView = new ModelAndView("Empresas/create");
             return modelAndView;
         } else {
-            empresaDAO.criarEmpresa(empresa);
+            EmpresaDAO.getInstance().criarEmpresa(empresa);
             return new ModelAndView("redirect:/empresas");
         }
     }
@@ -64,14 +63,14 @@ public class EmpresaController {
             modelAndView.addObject("empresa", empresa);
             return modelAndView;
         } else {
-            empresaDAO.alterarEmpresa(login, empresa);
+            EmpresaDAO.getInstance().alterarEmpresa(login, empresa);
             return new ModelAndView("redirect:/empresas");
         }
     }
 
     @GetMapping(path = "/{login}/delete")
     public ModelAndView deleteEmpresa(@PathVariable String login) {
-        empresaDAO.excluirEmpresa(login);
+        EmpresaDAO.getInstance().excluirEmpresa(login);
         return new ModelAndView("redirect:/empresas");
     }
 }

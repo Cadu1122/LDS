@@ -15,6 +15,13 @@ import java.util.Set;
 import com.moeda_estudantil.Classes.Empresa;
 
 public class EmpresaDAO {
+
+    private static final EmpresaDAO EMPRESA_DAO = new EmpresaDAO();
+
+    public static EmpresaDAO getInstance() {
+        return EMPRESA_DAO;
+    }
+
     private static final File ARQUIVO_ARMAZENAMENTO = new File("Empresas.dat");
     private static Set<Empresa> empresas = new HashSet<Empresa>();
 
@@ -26,7 +33,7 @@ public class EmpresaDAO {
                .orElse(null);
     }
 
-    public EmpresaDAO() {
+    private EmpresaDAO() {
         empresas = new HashSet<Empresa>();
         recuperarEmpresas();
     }
@@ -64,25 +71,12 @@ public class EmpresaDAO {
         armazenarEmpresas();
     }
 
-    public boolean isLoginValido(String login, String senha) {
-        Empresa empresa = empresas.stream()
-                            .filter(u -> login.equals(u.getLogin()))
-                            .findFirst()
-                            .orElse(null);
-        if(empresa == null) {
-            return false;
-        }
-        return empresa.logar(login, senha);
-    }
-
     public boolean alterarEmpresa(String login, Empresa empresa) {
         Empresa empresaAntiga = (Empresa) encontrarEmpresa(login);
         if(empresaAntiga == null) {
             return false;
         } else {
-            empresaAntiga.setLogin(empresa.getLogin());
-            empresaAntiga.setSenha(empresa.getSenha());
-            empresaAntiga.setEmail(empresa.getEmail());
+            empresaAntiga.alterar(empresa);
             armazenarEmpresas();
             return true;
         }

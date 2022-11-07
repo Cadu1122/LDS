@@ -1,16 +1,19 @@
 package com.moeda_estudantil.Classes;
 
-public class Aluno extends Usuario{
+public class Aluno extends PessoaFisica{
     private String email;
     private String rg;  
     private String endereco;
-    private String instituicao;
     private String curso;
 
 
-    public Aluno(String login, String senha, String email) {
-        super(login, senha);
+    public Aluno(String login, String senha, String nome, String cpf, String instituicao, String email, String rg,
+            String endereco, String curso) {
+        super(login, senha, nome, cpf, instituicao);
         this.email = email;
+        this.rg = rg;
+        this.endereco = endereco;
+        this.curso = curso;
     }
 
     public Aluno(){
@@ -41,14 +44,6 @@ public class Aluno extends Usuario{
         this.endereco = endereco;
     }
 
-    public String getInstituicao() {
-        return instituicao;
-    }
-
-    public void setInstituicao(String instituicao) {
-        this.instituicao = instituicao;
-    }
-
     public String getCurso() {
         return curso;
     }
@@ -57,4 +52,29 @@ public class Aluno extends Usuario{
         this.curso = curso;
     }
     
+    public void alterar(Aluno alunoNovo) {
+        this.setLogin(alunoNovo.getLogin());
+        this.setSenha(alunoNovo.getSenha());
+        this.setEmail(alunoNovo.getEmail());
+        this.setRg(alunoNovo.getRg());
+        this.setEndereco(alunoNovo.getEndereco());
+        this.setInstituicao(alunoNovo.getInstituicao());
+        this.setCurso(alunoNovo.getCurso());
+        this.setCpf(alunoNovo.getCpf());
+        this.setNome(alunoNovo.getNome());
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(object instanceof Aluno) {
+            Aluno comparar = (Aluno) object;
+            return comparar.getLogin().equals(this.getLogin());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNome();
+    }
 }
