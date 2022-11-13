@@ -28,4 +28,15 @@ public class Professor extends PessoaFisica {
         }
         return false;
     }
+
+     public boolean darMoedas(Aluno aluno, int qte){
+        if(this.getMoedas()<qte){
+            return false;
+        }
+        else{
+            this.setMoedas(this.getMoedas()-qte);
+            aluno.setMoedas(aluno.getMoedas()+qte);
+            return true;
+        }      
+    }
 }
