@@ -39,4 +39,9 @@ public class Professor extends PessoaFisica {
             return true;
         }      
     }
+
+    @Override
+    public String toString() {
+        return this.getLogin();
+    }
 }

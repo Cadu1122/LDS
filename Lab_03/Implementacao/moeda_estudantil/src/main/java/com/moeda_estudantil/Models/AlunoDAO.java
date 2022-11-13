@@ -15,7 +15,6 @@ import java.util.Set;
 import com.moeda_estudantil.Classes.Aluno;
 
 public class AlunoDAO {
-    private static final AlunoDAO ALUNO_DAO = new AlunoDAO();
 
     public static final AlunoDAO getInstance() {
         return ALUNO_DAO;
@@ -23,6 +22,9 @@ public class AlunoDAO {
 
     private static final File ARQUIVO_ARMAZENAMENTO = new File("Alunos.dat");
     private static Set<Aluno> alunos = new HashSet<Aluno>();
+
+    
+    private static final AlunoDAO ALUNO_DAO = new AlunoDAO();
 
     public Aluno encontrarAluno(String login) {
         recuperarAlunos();
