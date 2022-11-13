@@ -40,6 +40,7 @@
                         <td th:text="${professor.instituicao}"></td>
                         <td th:text="${professor.departamento}"></td>
                         <td><a th:href="@{/professores/{login}/historico(login = ${professor.login})}">Acessar Histórico</a></td>
+                        <td><a th:href="@{/professores/{login}/moedas(login = ${professor.login})}">Dar Moedas</a></td>
                     </tr>
                 </tbody>
             </table>
