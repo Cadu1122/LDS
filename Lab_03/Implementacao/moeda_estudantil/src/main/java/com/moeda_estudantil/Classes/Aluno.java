@@ -62,6 +62,7 @@ public class Aluno extends PessoaFisica{
         this.setCurso(alunoNovo.getCurso());
         this.setCpf(alunoNovo.getCpf());
         this.setNome(alunoNovo.getNome());
+        this.setMoedas(alunoNovo.getMoedas());
     }
 
     @Override
@@ -77,4 +78,6 @@ public class Aluno extends PessoaFisica{
     public String toString() {
         return this.getNome();
     }
+
+    
 }
