@@ -9,48 +9,49 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.moeda_estudantil.Classes.Empresa;
+import com.moeda_estudantil.Classes.Vantagem;
 
-public class EmpresaDAO {
+public class VantagemDAO {
 
-    public static EmpresaDAO getInstance() {
-        return EMPRESA_DAO;
+    private static final File ARQUIVO_ARMAZENAMENTO = new File("Vantagens.dat");
+
+    private static Set<Vantagem> vantagens = new LinkedHashSet<Vantagem>();
+
+    private static final VantagemDAO VANTAGEM_DAO = new VantagemDAO();
+
+    public static final VantagemDAO getInstance() {
+        return VANTAGEM_DAO;
     }
 
-    private static final File ARQUIVO_ARMAZENAMENTO = new File("Empresas.dat");
-    private static Set<Empresa> empresas = new HashSet<Empresa>();
-
-    private static final EmpresaDAO EMPRESA_DAO = new EmpresaDAO();
-
-    public Empresa encontrarEmpresa(String login) {
-        recuperarEmpresas();
-        return empresas.stream()
-               .filter(u -> u.getLogin().equals(login))
-               .findFirst()
-               .orElse(null);
+    public List<Vantagem> encontrar(Empresa empresa) {
+        recuperar();
+        return vantagens.stream()
+               .filter(h -> h.getEmpresa().equals(empresa))
+               .toList();
     }
 
-    private EmpresaDAO() {
-        empresas = new HashSet<Empresa>();
-        recuperarEmpresas();
+    private VantagemDAO() {
+        recuperar();
     }
 
-    public Set<Empresa> getEmpresas() {
-        return empresas;
+    public Set<Vantagem> getVantagens() {
+        return vantagens;
     }
 
 	/**
 	 * Carrega os empresas do banco de dados
 	 */
 	@SuppressWarnings("unchecked")
-	private static void recuperarEmpresas() {
+	private static void recuperar() {
 		try {
 			if (ARQUIVO_ARMAZENAMENTO.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(ARQUIVO_ARMAZENAMENTO));
-				empresas = (Set<Empresa>) objectInputStream.readObject();
+				vantagens = (Set<Vantagem>) objectInputStream.readObject();
 				objectInputStream.close();
 			}
 		} catch (SecurityException e) {
@@ -66,43 +67,21 @@ public class EmpresaDAO {
 		}
 	}
 
-    public void criarEmpresa(Empresa empresa) {
-        empresas.add(empresa);
-        armazenarEmpresas();
-    }
-
-    public boolean alterarEmpresa(String login, Empresa empresa) {
-        Empresa empresaAntiga = (Empresa) encontrarEmpresa(login);
-        if(empresaAntiga == null) {
-            return false;
-        } else {
-            empresaAntiga.alterar(empresa);
-            armazenarEmpresas();
-            return true;
-        }
-    }
-
-    public boolean excluirEmpresa(String login) {
-        Empresa empresaAntiga = encontrarEmpresa(login);
-        if(empresaAntiga == null) {
-            return false;
-        } else {
-            empresas.remove(empresaAntiga);
-            armazenarEmpresas();
-            return true;
-        }
+    public void salvar(Vantagem vantagem) {
+        vantagens.add(vantagem);
+        armazenarAlunos();
     }
 
     /**
 	 * Salva empresas no banco de dados
 	 */
-	private void armazenarEmpresas() {
+	private void armazenarAlunos() {
 		try {
 			if (!ARQUIVO_ARMAZENAMENTO.exists()) {
 				ARQUIVO_ARMAZENAMENTO.createNewFile();
 			}
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(ARQUIVO_ARMAZENAMENTO));
-			objectOutputStream.writeObject(empresas);
+			objectOutputStream.writeObject(vantagens);
 			objectOutputStream.close();
 		} catch (SecurityException e) {
 			System.err.println("O acesso ao arquivo foi negado.");

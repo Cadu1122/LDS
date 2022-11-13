@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.moeda_estudantil.Classes.Empresa;
+import com.moeda_estudantil.Classes.Vantagem;
 import com.moeda_estudantil.Models.EmpresaDAO;
+import com.moeda_estudantil.Models.VantagemDAO;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +44,31 @@ public class EmpresaController {
             ModelAndView modelAndView = new ModelAndView("Empresas/update");
             modelAndView.addObject("empresa", empresa);
             return modelAndView;
+        }
+    }
+
+    @GetMapping(path = "/{login}/new/vantagem")
+    public ModelAndView putVantagem(@PathVariable String login) {
+        Empresa empresa = (Empresa) EmpresaDAO.getInstance().encontrarEmpresa(login);
+        if (empresa == null) {
+            return new ModelAndView("redirect:/empresas");
+        } else {
+            ModelAndView modelAndView = new ModelAndView("Empresas/vantagemCreate");
+            modelAndView.addObject("login", login);
+            modelAndView.addObject("vantagem", new Vantagem());
+            return modelAndView;
+        }
+    }
+
+    @PostMapping(path = "/{login}/new/vantagem")
+    public ModelAndView createEmpresa(@Valid Vantagem vantagem, BindingResult result, @PathVariable String login) { 
+        if(result.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("Empresas/create");
+            return modelAndView;
+        } else {
+            vantagem.setEmpresa(EmpresaDAO.getInstance().encontrarEmpresa(login));
+            VantagemDAO.getInstance().salvar(vantagem); 
+            return new ModelAndView("redirect:/empresas");
         }
     }
 

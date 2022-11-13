@@ -48,10 +48,12 @@
                         <td th:text="${aluno.curso}"></td>
                         <td><a th:href="@{/alunos/{login}/edit(login = ${aluno.login})}">Alterar dados</a></td>
                         <td><a th:href="@{/alunos/{login}/delete(login = ${aluno.login})}">Excluir dados</a></td>
+                        <td><a th:href="@{/alunos/{login}/historico(login = ${aluno.login})}">Visualizar histórico</a></td>
                     </tr>
                 </tbody>
             </table>
             <a th:href="@{/alunos/new}">Criar nova aluno</a>
+            <a th:href="@{/vantagens}">Lista de Vantagens</a>
         </div>
     </div>
 

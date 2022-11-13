@@ -7,39 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <title>Lista de Empresas</title>
+    <title>Lista de Vantagens</title>
 </head>
 
 <body>
 
     <div class="container">
         <div class="row">
-            <h1>Lista de empresas:</h1>
+            <h1>Lista de vantagens:</h1>
         </div>
         <div class="row">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Login</th>
-                        <th scope="col">Senha</th>
-                        <th scope="col">Email</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Custo</th>
+                        <th scope="col">Empresa</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="empresa : ${empresas}">
-                        <th th:text="${empresa.login}"></th>
-                        <td th:text="${empresa.senha}"></td>
-                        <td th:text="${empresa.email}"></td>
-                        <td><a th:href="@{/empresas/{login}/edit(login = ${empresa.login})}">Alterar dados</a></td>
-                        <td><a th:href="@{/empresas/{login}/delete(login = ${empresa.login})}">Excluir dados</a></td>
-                        <td><a th:href="@{/empresas/{login}/new/vantagem(login = ${empresa.login})}">Cadastrar Vantagem</a></td>
+                    <tr th:each="vantagem : ${vantagens}">
+                        <th th:text="${vantagem.nome}"></th>
+                        <td th:text="${vantagem.descricao}"></td>
+                        <td th:text="${vantagem.custo}"></td>
+                        <td th:text="${vantagem.empresa}"></td>
                     </tr>
                 </tbody>
             </table>
-            <a th:href="@{/empresas/new}">Criar nova empresa</a>
         </div>
     </div>
 
