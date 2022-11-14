@@ -26,4 +26,9 @@ public class Empresa extends Usuario {
         this.setSenha(empresaNova.getSenha());
         this.setEmail(empresaNova.getEmail());
     }
+
+    @Override
+    public String toString() {
+        return this.getLogin();
+    }
 }

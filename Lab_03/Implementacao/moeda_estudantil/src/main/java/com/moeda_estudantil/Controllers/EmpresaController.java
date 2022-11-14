@@ -61,7 +61,7 @@ public class EmpresaController {
     }
 
     @PostMapping(path = "/{login}/new/vantagem")
-    public ModelAndView createVaantagem(@Valid Vantagem vantagem, BindingResult result, @PathVariable String login) { 
+    public ModelAndView createVantagem(@Valid Vantagem vantagem, BindingResult result, @PathVariable String login) { 
         if(result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("Empresas/create");
             return modelAndView;
