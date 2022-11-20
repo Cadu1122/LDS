@@ -33,7 +33,7 @@ public class ProfessorController {
     @PostMapping(path = "/{login}/moedas")
     public ModelAndView giveCoins(@PathVariable String login, String loginAluno, int qte, String motivo) {
             ProfessorDAO.getInstance().darMoedas(login, loginAluno, qte, motivo);
-            return new ModelAndView("redirect:/alunos");      
+            return new ModelAndView("redirect:/professores");
     }
 
     @GetMapping(path = "/{login}/moedas")

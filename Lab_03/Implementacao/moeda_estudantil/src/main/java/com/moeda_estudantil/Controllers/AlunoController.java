@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.moeda_estudantil.Classes.Aluno;
 import com.moeda_estudantil.Models.AlunoDAO;
 import com.moeda_estudantil.Models.HistoricoDAO;
+import com.moeda_estudantil.Models.VantagemCompradaDAO;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,6 +79,13 @@ public class AlunoController {
     public ModelAndView getHistorico(@PathVariable String login) {
         ModelAndView modelAndView = new ModelAndView("Alunos/historico");
         modelAndView.addObject("historicos", HistoricoDAO.getInstance().encontrar(AlunoDAO.getInstance().encontrarAluno(login)));
+        return modelAndView;
+    }
+
+    @GetMapping("/{login}/vantagensCompradas")
+    public ModelAndView getVantagensCompradas(@PathVariable String login) {
+        ModelAndView modelAndView = new ModelAndView("Alunos/vantagensCompradas");
+        modelAndView.addObject("vantagensCompradas", VantagemCompradaDAO.getInstance().encontrar(AlunoDAO.getInstance().encontrarAluno(login)));
         return modelAndView;
     }
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Vantagem implements Serializable {
 
+    private Integer id;
+
     private String nome;
 
     private String descricao;
@@ -11,6 +13,14 @@ public class Vantagem implements Serializable {
     private Integer custo;
 
     private Empresa empresa;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Empresa getEmpresa() {
         return empresa;
@@ -49,5 +59,19 @@ public class Vantagem implements Serializable {
         setDescricao(descricao);
         setEmpresa(empresa);
         setNome(nome);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Vantagem)) {
+            return false;
+        }
+        Vantagem vantagem = (Vantagem) obj;
+        return vantagem.getNome().equals(this.getNome());
+    }
+
+    @Override
+    public String toString() {
+        return this.getNome();
     }
 }

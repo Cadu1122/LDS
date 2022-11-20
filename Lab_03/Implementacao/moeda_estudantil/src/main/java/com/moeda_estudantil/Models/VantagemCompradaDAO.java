@@ -17,6 +17,8 @@ import com.moeda_estudantil.Classes.Aluno;
 import com.moeda_estudantil.Classes.VantagemComprada;
 
 public class VantagemCompradaDAO {
+
+	public static int idGenerator = 1;
     
     private static final File ARQUIVO_ARMAZENAMENTO = new File("VantagemComprada.dat");
 
@@ -52,6 +54,10 @@ public class VantagemCompradaDAO {
 			if (ARQUIVO_ARMAZENAMENTO.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(ARQUIVO_ARMAZENAMENTO));
 				vantagensCompradas = (Set<VantagemComprada>) objectInputStream.readObject();
+				idGenerator = vantagensCompradas.stream()
+                    .mapToInt(b -> b.getCodigo())
+                    .max()
+                    .orElse(0) + 1;
 				objectInputStream.close();
 			}
 		} catch (SecurityException e) {
@@ -68,6 +74,8 @@ public class VantagemCompradaDAO {
 	}
 
     public void salvar(VantagemComprada vantagemComprada) {
+		vantagemComprada.setCodigo(idGenerator);
+		idGenerator++;
         vantagensCompradas.add(vantagemComprada);
         armazenarAlunos();
     }

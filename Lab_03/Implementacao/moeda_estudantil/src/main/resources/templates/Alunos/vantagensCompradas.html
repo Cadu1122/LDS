@@ -7,35 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <title>Lista de Vantagens</title>
+    <title>Lista de Vantagens Compradas</title>
 </head>
 
 <body>
 
     <div class="container">
         <div class="row">
-            <h1>Lista de vantagens:</h1>
+            <h1>Lista de vantagens compradas:</h1>
         </div>
         <div class="row">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Descrição</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Vantagem</th>
                         <th scope="col">Custo</th>
-                        <th scope="col">Empresa</th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="vantagem : ${vantagens}">
-                        <th th:text="${vantagem.id}"></th>
-                        <td th:text="${vantagem.nome}"></td>
-                        <td th:text="${vantagem.descricao}"></td>
-                        <td th:text="${vantagem.custo}"></td>
-                        <td th:text="${vantagem.empresa}"></td>
-                        <td><a th:href="@{/vantagens/{loginAluno}/{nomeVantagem}/comprar(loginAluno = ${loginAluno}, nomeVantagem = ${vantagem.id})}">Comprar Vantagem</a></td>
+                    <tr th:each="vantagemComprada : ${vantagensCompradas}">
+                        <th th:text="${vantagemComprada.codigo}"></th>
+                        <td th:text="${vantagemComprada.vantagem}"></td>
+                        <td th:text="${vantagemComprada.vantagem.custo}"></td>
                     </tr>
                 </tbody>
             </table>

@@ -79,5 +79,12 @@ public class Aluno extends PessoaFisica{
         return this.getNome();
     }
 
-    
+    public boolean comprarVantagem(Vantagem vantagem) {
+        int saldo = this.getMoedas() - vantagem.getCusto();
+        if(saldo < 0) {
+            return false;
+        }
+        this.setMoedas(saldo);
+        return true;
+    }
 }

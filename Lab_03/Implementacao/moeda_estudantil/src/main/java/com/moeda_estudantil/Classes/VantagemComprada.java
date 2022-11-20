@@ -10,8 +10,10 @@ public class VantagemComprada implements Serializable {
 
     private Vantagem vantagem;
 
-    public VantagemComprada(Integer codigo, Aluno aluno, Vantagem vantagem) {
-        this.codigo = codigo;
+    public VantagemComprada(Aluno aluno, Vantagem vantagem) throws IllegalStateException {
+        if(!aluno.comprarVantagem(vantagem)) {
+            throw new IllegalStateException("O aluno não possui dinheiro para comprar essa vantagem");
+        }
         this.aluno = aluno;
         this.vantagem = vantagem;
     }

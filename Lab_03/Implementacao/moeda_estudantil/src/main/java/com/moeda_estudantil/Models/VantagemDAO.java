@@ -18,6 +18,8 @@ import com.moeda_estudantil.Classes.Vantagem;
 
 public class VantagemDAO {
 
+	public static int idGenerator = 1;
+
     private static final File ARQUIVO_ARMAZENAMENTO = new File("Vantagens.dat");
 
     private static Set<Vantagem> vantagens = new LinkedHashSet<Vantagem>();
@@ -34,6 +36,14 @@ public class VantagemDAO {
                .filter(h -> h.getEmpresa().equals(empresa))
                .toList();
     }
+
+	public Vantagem encontrar(Integer id) {
+		recuperar();
+		return vantagens.stream()
+			.filter(v -> v.getId().equals(id))
+			.findFirst()
+			.orElse(null);
+	}
 
     private VantagemDAO() {
         recuperar();
@@ -52,6 +62,10 @@ public class VantagemDAO {
 			if (ARQUIVO_ARMAZENAMENTO.exists()) {
 				ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(ARQUIVO_ARMAZENAMENTO));
 				vantagens = (Set<Vantagem>) objectInputStream.readObject();
+				idGenerator = vantagens.stream()
+                    .mapToInt(b -> b.getId())
+                    .max()
+                    .orElse(0) + 1;
 				objectInputStream.close();
 			}
 		} catch (SecurityException e) {
@@ -68,6 +82,8 @@ public class VantagemDAO {
 	}
 
     public void salvar(Vantagem vantagem) {
+		vantagem.setId(idGenerator);
+		idGenerator++;
         vantagens.add(vantagem);
         armazenarAlunos();
     }

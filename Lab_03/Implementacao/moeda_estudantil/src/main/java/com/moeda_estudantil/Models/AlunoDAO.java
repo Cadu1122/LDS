@@ -23,7 +23,6 @@ public class AlunoDAO {
     private static final File ARQUIVO_ARMAZENAMENTO = new File("Alunos.dat");
     private static Set<Aluno> alunos = new HashSet<Aluno>();
 
-    
     private static final AlunoDAO ALUNO_DAO = new AlunoDAO();
 
     public Aluno encontrarAluno(String login) {
@@ -40,6 +39,7 @@ public class AlunoDAO {
     }
 
     public Set<Aluno> getAlunos() {
+        recuperarAlunos();
         return alunos;
     }
 
